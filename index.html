@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angsa-Bas | CV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daisyui@2.51.0/dist/full.min.js"></script>
+    <style>
+        body {
+            background: radial-gradient(circle, #1a1a2e, #0f3460);
+            transition: background 0.5s ease-in-out;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            transition: all 0.3s ease-in-out;
+        }
+        .glass:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+        }
+    </style>
+</head>
+<body class="text-white flex flex-col items-center justify-center min-h-screen p-4">
+    <div id="clock" class="fixed top-4 left-4 text-xs text-cyan-300 font-mono bg-gray-900 bg-opacity-60 px-3 py-1 rounded shadow-md z-50"></div>
+    <!-- Jam real-time -->
+<div id="clock" class="fixed top-4 left-4 text-xs text-cyan-300 font-mono bg-gray-900 bg-opacity-60 px-3 py-1 rounded shadow-md z-50"></div>
+
+<!-- Tombol Scroll to Top -->
+<button onclick="scrollToTop()" id="scrollBtn" class="hidden fixed bottom-6 right-6 bg-cyan-500 hover:bg-cyan-600 text-white p-2 rounded-full shadow-lg z-50">
+  ⬆️
+</button>
+
+<!-- Quote acak -->
+<p id="quote" class="fixed bottom-2 left-4 text-xs text-gray-400 italic z-40"></p>
+
+
+    <div class="text-center">
+        <h1 id="name" class="text-5xl font-bold text-cyan-400"></h1>
+        <p class="text-lg text-gray-300 mt-2">Mahasiswa | Sistem Komputer | Universitas Sriwijaya</p>
+        <p id="clock" class="text-sm text-cyan-200 mt-1 font-mono"></p>
+    </div>
+    
+    <div class="flex justify-center mt-2">
+        <button onclick="confirmDownload()" 
+            class="mt-4 px-6 py-2 text-white font-bold rounded-lg shadow-lg transform transition duration-300 
+            bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 hover:scale-110 
+            active:scale-95 hover:shadow-cyan-500/50 animate-pulse hover:animate-none">
+            ⬇️ Download CV
+        </button>
+    </div>
+    
+    <script>
+        function confirmDownload() {
+            if (confirm("Apakah Anda ingin mengunduh CV ini?")) {
+                downloadCV();
+            }
+        }
+    
+        function downloadCV() {
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+    
+            doc.setFont("helvetica", "bold");
+            doc.text("CV - BASKARA", 20, 20);
+            doc.text("Nama : M. Rifki Baskara", 20, 30);
+            doc.text("Alamat : Jl. Jenderal Sudirman Lorong Sarangwati", 20, 40);
+            doc.text("Riwayat Pendidikan : S1 Ilmu Komputer Universitas Sriwijaya", 20, 50);
+            doc.text("Keahlian : Melakukan Hal-Hal Positif", 20, 60);
+            
+            // Efek animasi saat tombol diklik
+            let btn = document.querySelector("button");
+            btn.classList.add("animate-ping");
+            setTimeout(() => btn.classList.remove("animate-ping"), 500);
+    
+            // Simpan file CV dengan nama yang lebih rapi
+            doc.save("M_Rifki_Baskara_CV.pdf");
+        }
+    </script>
+
+    <div class="progress-container w-full max-w-md mt-6">
+        <h2 class="text-xl text-cyan-300">Keterampilan:</h2>
+        <p>Berdoa</p>
+        <div class="glass h-2 w-full bg-cyan-400"></div>
+        <p>Ikhtiar</p>
+        <div class="glass h-2 w-full bg-cyan-400"></div>
+        <p>Sabar</p>
+        <div class="glass h-2 w-full bg-cyan-400"></div>
+    </div>
+    
+    <div class="menu fixed top-5 right-5 bg-cyan-500 px-4 py-2 rounded-xl cursor-pointer hover:bg-cyan-600 transition-all" onclick="toggleMenu()">📋 Menu</div>
+    <div id="user-menu" class="hidden fixed top-16 right-5 p-5 glass rounded-lg shadow-xl w-80">
+        <button class="absolute top-2 right-3 text-red-500 text-lg" onclick="toggleMenu()">✖</button>
+        <h2 class="text-xl font-semibold text-cyan-300">Nama Pengunjung Web</h2>
+        <input type="text" id="search" onkeyup="searchUser()" placeholder="Cari pengguna..." class="w-full p-2 rounded bg-gray-900 text-white border border-cyan-400 mb-4">
+        <ul id="user-list" class="space-y-2"></ul>
+        <h2 class="text-xl font-semibold mt-4 text-cyan-300">Tambah Pengguna</h2>
+        <form onsubmit="addUser(event)" class="mt-2 flex gap-2">
+            <input type="text" id="name" placeholder="Masukkan nama" class="flex-1 p-2 rounded bg-gray-900 text-white border border-cyan-400">
+            <button type="submit" class="px-4 py-2 bg-cyan-500 rounded text-white hover:bg-cyan-600">Tambah</button>
+        </form>
+    </div>
+    
+    <div id="loader" class="hidden fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center">
+        <div class="text-cyan-400 text-2xl animate-spin">⏳</div>
+    </div>
+    
+    <p id='copyright' class="fixed bottom-4 text-cyan-400 text-center w-full font-mono text-sm animate-bounce">&copy; 2025 Bas All Rights Reserved</p>
+    
+    <script>
+        function toggleMenu() {
+            let menu = document.getElementById("user-menu");
+            menu.classList.toggle("hidden");
+        }
+        async function addUser(event) {
+            event.preventDefault();
+            let name = document.getElementById("name").value;
+            if (!name) return alert("Nama tidak boleh kosong!");
+            await fetch("/api/users", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name })
+            });
+            document.getElementById("name").value = "";
+            loadUsers();
+        }
+        async function loadUsers() {
+            document.getElementById("loader").classList.remove("hidden");
+            let response = await fetch("/api/users");
+            let users = await response.json();
+            document.getElementById("loader").classList.add("hidden");
+            let userList = document.getElementById("user-list");
+            userList.innerHTML = "";
+            users.forEach(user => {
+                let li = document.createElement("li");
+                li.className = "flex justify-between glass p-2 rounded-lg items-center";
+                li.innerHTML = `
+                    <span class="text-lg text-cyan-300">${user.name}</span>
+                    <div>
+                        <button onclick="editUser(${user.id})" class="btn btn-warning btn-sm">Edit</button>
+                        <button onclick="deleteUser(${user.id})" class="btn btn-error btn-sm ml-2">Hapus</button>
+                    </div>
+                `;
+                userList.appendChild(li);
+            });
+        }
+        async function editUser(id) {
+            let newName = prompt("Masukkan nama baru:");
+            if (!newName) return;
+            await fetch(`/api/users/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name: newName })
+            });
+            loadUsers();
+        }
+        async function deleteUser(id) {
+            if (!confirm("Apakah Anda yakin ingin menghapus pengguna ini?")) return;
+            await fetch(`/api/users/${id}`, { method: "DELETE" });
+            loadUsers();
+        }
+        window.onload = loadUsers;
+    </script>
+    <script>
+        // Jam Real-Time
+        function updateClock() {
+          const now = new Date();
+          const options = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+          const date = now.toLocaleDateString('id-ID', {
+            weekday: 'short', year: 'numeric', month: 'short', day: 'numeric'
+          });
+          const time = now.toLocaleTimeString('id-ID', options);
+          document.getElementById('clock').textContent = `${date} • ${time}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
+      
+        // Typing Effect Nama
+        const text = "M.RIFKI BASKARA";
+        let i = 0;
+        function typeName() {
+          if (i < text.length) {
+            document.getElementById("name").textContent += text.charAt(i);
+            i++;
+            setTimeout(typeName, 100);
+          }
+        }
+      
+        // Quote Random
+        const quotes = [
+          "La Tahzan Innallaha Ma'ana.",
+          "Ikhtiar tanpa doa adalah kesombongan.",
+          "Satu hal kecil yang kamu lakukan hari ini bisa jadi besar besok.",
+          "diam agar suaramu lebih terdengar, sabar agar tindakanmu lebih benar."
+        ];
+        document.getElementById("quote").textContent =
+          quotes[Math.floor(Math.random() * quotes.length)];
+      
+        // Scroll to Top Button
+        const scrollBtn = document.getElementById("scrollBtn");
+        window.onscroll = () => {
+          scrollBtn.classList.toggle("hidden", window.scrollY < 200);
+        };
+        function scrollToTop() {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      
+        // Jalankan typing saat load
+        window.onload = function () {
+          typeName();
+          loadUsers(); // fungsi ini dari CRUD kamu, tetap dipanggil
+        };
+      </script>
+</body>
+</html>

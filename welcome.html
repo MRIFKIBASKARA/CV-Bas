@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to my profile</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Background utama */
+        body {
+            background: linear-gradient(135deg, #0A192F, #1B3B5F, #2C5B7B, #3D7CA6);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            overflow: hidden;
+            font-family: 'Poppins', sans-serif;
+            position: relative;
+        }
+
+        /* Logo UNSRI di sudut kanan atas */
+        .logo-kanan {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 95px;
+            height: auto;
+        }
+
+        /* Logo tambahan di sudut kiri atas */
+        .logo-kiri {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 80px;
+            height: auto;
+        }
+
+        /* Efek glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(12px);
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0, 150, 255, 0.3);
+            text-align: center;
+            max-width: 400px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Teks Glow Effect & Gradient */
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(45deg, #B0D4FF, #87B5E5);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 10px rgba(176, 212, 255, 0.8), 0 0 20px rgba(135, 181, 229, 0.6);
+            animation: glow 1.5s infinite alternate;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(176, 212, 255, 0.8); }
+            to { text-shadow: 0 0 20px rgba(176, 212, 255, 1); }
+        }
+
+        p {
+            color: #D0E5FF;
+            font-size: 1.2rem;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 300;
+            margin-top: 10px;
+        }
+
+        /* Tombol dengan font lebih tegas & efek futuristik */
+        .btn {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 14px 28px;
+            font-size: 1.3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            font-family: 'Orbitron', sans-serif;
+            color: #ffffff;
+            background: transparent;
+            border: 2px solid #3B6D99;
+            border-radius: 10px;
+            text-decoration: none;
+            letter-spacing: 2px;
+            box-shadow: 0 0 15px rgba(135, 181, 229, 0.5);
+            transition: all 0.3s ease-in-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Efek glow saat hover */
+        .btn::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 300%;
+            height: 300%;
+            background: radial-gradient(circle, rgba(0, 191, 255, 0.4) 10%, rgba(0, 191, 255, 0) 70%);
+            transition: all 0.4s ease-out;
+            transform: translate(-50%, -50%) scale(0);
+            border-radius: 50%;
+        }
+
+        .btn:hover::before {
+            transform: translate(-50%, -50%) scale(1);
+        }
+
+        .btn:hover {
+            color: #B0D4FF;
+            border-color: #B0D4FF;
+            box-shadow: 0 0 25px rgba(135, 181, 229, 0.7);
+        }
+
+        .btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Animasi teks berjalan (pindah ke bawah) */
+        .marquee {
+            position: absolute;
+            bottom: 10px;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .marquee span {
+            display: inline-block;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #D0E5FF;
+            text-shadow: 0 0 10px #87B5E5, 0 0 20px #1B3B5F;
+            animation: marqueeAnim 10s linear infinite;
+        }
+
+        @keyframes marqueeAnim {
+            from { transform: translateX(100%); }
+            to { transform: translateX(-100%); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Logo kiri (Universitas Sriwijaya) -->
+    <img src="https://sk.ilkom.unsri.ac.id/statik/logo.png" alt="Logo Universitas Sriwijaya" class="logo-kiri">
+
+    <!-- Logo kanan (Fakultas Ilmu Komputer UNSRI) -->
+    <img src="https://fkm.unsri.ac.id/assets/kcfinder/upload/files/logo-unsri.png" alt="Logo Fakultas Ilmu Komputer UNSRI" class="logo-kanan">
+
+    <div class="glass">
+        <h1>AHLAN WA SAHLAN</h1>
+        <p>Jelajahi profil saya dan temukan lebih banyak informasi.</p>
+        <a href="{{ url_for('home') }}" class="btn">🚀 Klik Disini</a>
+    </div>
+
+    <!-- Teks Berjalan (pindah ke bagian bawah) -->
+    <div class="marquee">
+        <span> Universitas Sriwijaya | Fakultas Ilmu Komputer | Sistem Komputer | Praktikum Pemrograman Komputer </span>
+    </div>
+</body>
+</html>
